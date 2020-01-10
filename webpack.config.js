@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require('webpack');
 
 module.exports = {
-    entry: path.join(__dirname, "js", "app.js"),
+    entry: path.join(__dirname, "js", "client.js"),
     module: {
         rules: [
           {
@@ -11,6 +11,10 @@ module.exports = {
             use: {
               loader: "babel-loader"
             }
+          },
+          {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
           }
         ]
     },
@@ -21,14 +25,18 @@ module.exports = {
     output: {
         path: path.join(__dirname, "public"),
         filename: "bundle.js",
-        publicPath: "/"
+        publicPath: "/build"
     }, 
     plugins: [
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         hot: true,
-        historyApiFallback: true
-    }
+        historyApiFallback: true,
+        watchContentBase: true,
+        watchOptions: {
+          poll: true
+        }
+    },
 };
   
